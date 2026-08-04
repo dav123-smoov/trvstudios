@@ -16,8 +16,6 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
   const [description, setDescription] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  if (!isOpen) return null;
-
   const handleServiceToggle = useCallback((service) => {
     setSelectedServices(prev =>
       prev.includes(service)
@@ -28,8 +26,23 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    setSubmitted(true);
-  }, []);
+    
+    const formData = {
+      "form-name": "booking",
+      "name": name,
+      "email": email,
+      "services": selectedServices.join(", "),
+      "description": description
+    };
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString()
+    })
+      .then(() => setSubmitted(true))
+      .catch(error => console.error("Form submission error:", error));
+  }, [name, email, selectedServices, description]);
 
   const handleResetAndClose = useCallback(() => {
     setName('');
@@ -39,6 +52,8 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
     setSubmitted(false);
     onClose();
   }, [onClose]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fadeIn">
