@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Inter", sans-serif;
+  --font-sans: "Inter", "Outfit", sans-serif;
+  
+  --color-brand-bg: #000000;
+  --color-brand-card: #0A0A0A;
+  --color-brand-card-hover: #121212;
+  --color-brand-gold: #D4AF37;
+  --color-brand-gold-muted: rgba(212, 175, 55, 0.2);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272A;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3F3F46;
+}
+
+body {
+  background-color: #000000;
+  color: #F4F4F5;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+@layer utilities {
+  .glow-gold-subtle {
+    box-shadow: 0 0 80px 20px rgba(212, 175, 55, 0.08);
+  }
+  
+  /* Diagonal stripes background exactly like the reference */
+  .bg-diagonal-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #030303,
+      #030303 60px,
+      #070707 60px,
+      #070707 120px
+    );
+  }
+}
