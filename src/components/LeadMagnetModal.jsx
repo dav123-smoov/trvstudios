@@ -87,7 +87,15 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
             </div>
 
             {/* Scrollable Form Body - Takes up remaining height and scrolls */}
-            <form onSubmit={handleSubmit} className="space-y-5 relative z-10 overflow-y-auto pr-2 flex-1 scrollbar-thin">
+            <form 
+              name="booking" 
+              method="POST" 
+              data-netlify="true" 
+              netlify-honeypot="bot-field"
+              onSubmit={handleSubmit} 
+              className="space-y-5 relative z-10 overflow-y-auto pr-2 flex-1 scrollbar-thin"
+            >
+              <input type="hidden" name="form-name" value="booking" />
               
               <div>
                 <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-2">
