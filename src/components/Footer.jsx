@@ -76,7 +76,7 @@ const Footer = memo(function Footer({ onOpenLeadModal, onChangePage }) {
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-6">Connect</h4>
             <ul className="space-y-4">
-              <li><a href="https://www.instagram.com/trv_studio/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-zinc-500 hover:text-white transition-colors">Instagram</a></li>
+              <li><a href="https://www.instagram.com/trventurestudio" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-zinc-500 hover:text-white transition-colors">Instagram</a></li>
               <li><a href="https://www.tiktok.com/@trv_studio?_r=1&_t=ZS-98Q2hAnUVnR" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-zinc-500 hover:text-white transition-colors">TikTok</a></li>
               <li><a href="https://wa.me/2349133135923?text=Hello%20TRV%20Studio" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#D4AF37] hover:text-white transition-colors">WhatsApp Us</a></li>
             </ul>
