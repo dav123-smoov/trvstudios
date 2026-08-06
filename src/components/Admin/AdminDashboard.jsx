@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { ArrowLeft, Upload, Loader2, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Upload, Loader2, CheckCircle2, Trash2 } from 'lucide-react';
+import initialCaseStudies from '../../data/caseStudies.json';
 
 export default function AdminDashboard({ onChangePage }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -7,6 +8,10 @@ export default function AdminDashboard({ onChangePage }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  
+  // Local list state for optimistic UI updates
+  const [studies, setStudies] = useState(initialCaseStudies || []);
+  const [deletingId, setDeletingId] = useState(null);
 
   // Form State
   const [title, setTitle] = useState('');
@@ -70,6 +75,9 @@ export default function AdminDashboard({ onChangePage }) {
       }
 
       setSuccess(true);
+      // Optimistically update the list
+      setStudies([...studies, data.caseStudy]);
+      
       // Reset form
       setTitle('');
       setClient('');
@@ -83,6 +91,33 @@ export default function AdminDashboard({ onChangePage }) {
       setError(err.message);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to completely delete this case study? This cannot be undone.")) return;
+    
+    setDeletingId(id);
+    setError('');
+    
+    try {
+      const res = await fetch('/.netlify/functions/deleteCaseStudy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode, id })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to delete case study.');
+      
+      // Optimistically remove from UI
+      setStudies(studies.filter(s => s.id !== id));
+      
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -128,7 +163,41 @@ export default function AdminDashboard({ onChangePage }) {
       </div>
 
       <div className="max-w-3xl mx-auto mt-12 px-6">
-        <div className="mb-10">
+        {/* Management Section */}
+        <div className="mb-16">
+          <div className="mb-6">
+            <h2 className="text-2xl font-display text-white mb-2">Manage Projects</h2>
+            <p className="text-zinc-500 text-sm">Delete existing case studies from your live website.</p>
+          </div>
+          
+          <div className="space-y-3">
+            {studies.length === 0 ? (
+               <p className="text-zinc-500 italic text-sm">No case studies found.</p>
+            ) : (
+              studies.map((study) => (
+                <div key={study.id} className="flex items-center justify-between p-4 bg-[#0A0A0A] border border-zinc-800">
+                  <div className="flex items-center gap-4">
+                    <img src={study.coverImage} alt={study.title} className="w-12 h-12 object-cover border border-zinc-800" />
+                    <div>
+                      <h4 className="text-white text-sm font-medium">{study.title}</h4>
+                      <p className="text-zinc-500 text-xs">{study.client}</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => handleDelete(study.id)} 
+                    disabled={deletingId === study.id}
+                    className="p-2 text-zinc-600 hover:text-red-500 transition-colors disabled:opacity-50 cursor-pointer"
+                    title="Delete Case Study"
+                  >
+                    {deletingId === study.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="mb-10 pt-10 border-t border-zinc-900">
           <h1 className="text-3xl font-display text-white mb-2">Upload Case Study</h1>
           <p className="text-zinc-500 text-sm">Fill out the details below. Once submitted, wait 2 minutes for the live site to automatically rebuild.</p>
         </div>
