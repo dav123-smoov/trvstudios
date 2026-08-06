@@ -1,23 +1,5 @@
 [
   {
-    "id": "5",
-    "displayId": "05",
-    "title": "KAYIN",
-    "client": "lamina",
-    "category": "packaging",
-    "coverImage": "/images/1786026175235_image_2026-08-06_152245615.png",
-    "description": "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww,,,,,,,wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww;",
-    "gallery": [
-      "/images/1786026176251_image_2026-08-06_152249675.png"
-    ],
-    "highlights": [
-      "photo",
-      "brand",
-      "web",
-      "dev"
-    ]
-  },
-  {
     "id": "1",
     "displayId": "01",
     "client": "Megatex Paints Ltd.",
