@@ -85,9 +85,14 @@ const Footer = memo(function Footer({ onOpenLeadModal, onChangePage }) {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-medium text-zinc-600">
-            © {new Date().getFullYear()} TRV Studio. All rights reserved.
-          </p>
+          <div className="flex items-center gap-2">
+            <button type="button" onClick={() => onChangePage('admin')} className="text-zinc-800 hover:text-zinc-500 transition-colors focus:outline-none" aria-label="Admin Dashboard">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </button>
+            <p className="text-xs font-medium text-zinc-600">
+              © {new Date().getFullYear()} TRV Studio. All rights reserved.
+            </p>
+          </div>
           <div className="flex gap-6">
             <a href="#" className="text-xs font-medium text-zinc-600 hover:text-white">Privacy Policy</a>
             <a href="#" className="text-xs font-medium text-zinc-600 hover:text-white">Terms of Service</a>

@@ -1,36 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { ArrowRight, Eye } from 'lucide-react';
-
-const portfolioItems = [
-  {
-    id: 1,
-    title: 'Matte Black & Gold Packaging',
-    category: 'packaging',
-    image: '/images/packaging.jpg',
-    client: 'TRV Exclusive',
-  },
-  {
-    id: 2,
-    title: 'Minimalist Business Stationery',
-    category: 'stationery',
-    image: '/images/branding.jpg',
-    client: 'Executive Founder',
-  },
-  {
-    id: 3,
-    title: 'Megatex Paints Safety Helmets',
-    category: 'merch',
-    image: '/images/helmet_brief.png',
-    client: 'Megatex Paints Ltd.',
-  },
-  {
-    id: 4,
-    title: 'Analytics Dashboard Application',
-    category: 'digital',
-    image: '/images/webapp.jpg',
-    client: 'Corporate Agency',
-  }
-];
+import portfolioItems from '../data/caseStudies.json';
 
 const categories = [
   { id: 'all', label: 'All Projects' },
@@ -97,7 +67,7 @@ export default function PortfolioGrid() {
               {/* Image Container - Straight Card */}
               <div className="relative aspect-[4/3] rounded-none overflow-hidden bg-zinc-900 border border-zinc-800/80 mb-6 shadow-2xl">
                 <img
-                  src={item.image}
+                  src={item.coverImage}
                   alt={item.title}
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"

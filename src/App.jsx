@@ -14,6 +14,7 @@ const SolutionPage = lazy(() => import('./components/SolutionPage'));
 const CaseStudiesPage = lazy(() => import('./components/CaseStudiesPage'));
 const AboutUsPage = lazy(() => import('./components/AboutUsPage'));
 const ReviewsPage = lazy(() => import('./components/ReviewsPage'));
+const AdminDashboard = lazy(() => import('./components/Admin/AdminDashboard'));
 
 export default function App() {
   const [activePage, setActivePage] = useState('home');
@@ -33,11 +34,13 @@ export default function App() {
     <div className="min-h-screen bg-[#000000] text-zinc-300 font-sans selection:bg-[#D4AF37] selection:text-black">
       
       {/* Sticky Header */}
-      <Navbar 
-        onOpenLeadModal={handleOpenLeadModal} 
-        activePage={activePage} 
-        onChangePage={handleChangePage} 
-      />
+      {activePage !== 'admin' && (
+        <Navbar 
+          onOpenLeadModal={handleOpenLeadModal} 
+          activePage={activePage} 
+          onChangePage={handleChangePage} 
+        />
+      )}
 
       {/* Main Content Router */}
       <main>
@@ -79,14 +82,20 @@ export default function App() {
           {activePage === 'reviews' && (
             <ReviewsPage onChangePage={handleChangePage} onOpenLeadModal={handleOpenLeadModal} />
           )}
+
+          {activePage === 'admin' && (
+            <AdminDashboard onChangePage={handleChangePage} />
+          )}
         </Suspense>
       </main>
 
       {/* Footer */}
-      <Footer 
-        onOpenLeadModal={handleOpenLeadModal} 
-        onChangePage={handleChangePage} 
-      />
+      {activePage !== 'admin' && (
+        <Footer 
+          onOpenLeadModal={handleOpenLeadModal} 
+          onChangePage={handleChangePage} 
+        />
+      )}
 
       {/* Lead Magnet Popup Drawer */}
       <LeadMagnetModal isOpen={isLeadModalOpen} onClose={handleCloseLeadModal} />

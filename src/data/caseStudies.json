@@ -1,0 +1,78 @@
+[
+  {
+    "id": "1",
+    "displayId": "01",
+    "client": "Megatex Paints Ltd.",
+    "title": "Branding the Safety Gear of a Painting Crew",
+    "category": "merch",
+    "coverImage": "/images/helmet_brief.png",
+    "description": "Megatex Paints requested their paint roller logo printed onto their field safety helmets. We processed the raw layout, calibrated the paint logo spacing, and applied a high-density, weather-proof print coating to withstand rigorous construction and paint environments.",
+    "gallery": [
+      "/images/helmet_brief.png",
+      "/images/helmet_fulfillment.png"
+    ],
+    "highlights": [
+      "Logo Aligned Front Center",
+      "High-Visibility Contrast Checked",
+      "Scratch-Resistant Resin Coating",
+      "100% Uniform Batch Completion"
+    ]
+  },
+  {
+    "id": "2",
+    "displayId": "02",
+    "client": "TRV Exclusive",
+    "title": "Premium Matte Black & Gold Packaging",
+    "category": "packaging",
+    "coverImage": "/images/packaging.jpg",
+    "description": "For our premium clients, we designed custom dieline boxes featuring an elegant matte-black background paired with embossed gold-foil typography. We calibrated stamp lines and thickness variables so that printing remains crisp and commands authority on luxury shelves.",
+    "gallery": [
+      "/images/case_box.jpg",
+      "/images/packaging.jpg"
+    ],
+    "highlights": [
+      "Precision Cardboard Dielines",
+      "Gold Foil Hot Stamping",
+      "Heavy-Duty Cardboard Weight",
+      "Saturated Ink Finish Checks"
+    ]
+  },
+  {
+    "id": "3",
+    "displayId": "03",
+    "client": "Executive Founder",
+    "title": "Minimalist Business Stationery",
+    "category": "stationery",
+    "coverImage": "/images/branding.jpg",
+    "description": "A refined stationery setup including premium matte business cards, letterheads, and document folders designed for high-level executive networking.",
+    "gallery": [
+      "/images/branding.jpg",
+      "/images/about_office.jpg"
+    ],
+    "highlights": [
+      "300gsm Premium Matte Paper",
+      "Minimalist Grid Layouts",
+      "Spot UV Logo Highlights",
+      "Consistent Brand Collateral"
+    ]
+  },
+  {
+    "id": "4",
+    "displayId": "04",
+    "client": "Corporate Agency",
+    "title": "Analytics Dashboard Application",
+    "category": "digital",
+    "coverImage": "/images/webapp.jpg",
+    "description": "A comprehensive digital transformation project involving the UI/UX design and frontend development of a real-time data analytics dashboard for enterprise use.",
+    "gallery": [
+      "/images/webapp.jpg",
+      "/images/sol_digital.jpg"
+    ],
+    "highlights": [
+      "React/Vite Frontend Architecture",
+      "Real-time Data Visualization",
+      "Dark Mode UI System",
+      "Responsive Grid Layouts"
+    ]
+  }
+]

@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { ArrowLeft, CheckCircle2, ChevronRight } from 'lucide-react';
+import caseStudies from '../data/caseStudies.json';
 
 const CaseStudiesPage = memo(function CaseStudiesPage({ onChangePage, onOpenLeadModal }) {
   return (
@@ -37,99 +38,42 @@ const CaseStudiesPage = memo(function CaseStudiesPage({ onChangePage, onOpenLead
         {/* Case Studies Stack */}
         <div className="space-y-24">
           
-          {/* Case Study 1: Megatex Paints */}
-          <div className="space-y-8 pb-16 border-b border-zinc-900">
-            <div className="space-y-4">
-              <span className="text-xl sm:text-2xl font-display italic font-light text-[#D4AF37] mb-3 block">
-                Case Study 01 / Megatex Paints
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-medium text-white">
-                Branding the Safety Gear of a Painting Crew
-              </h2>
-              <p className="text-zinc-400 text-sm font-medium leading-relaxed">
-                Megatex Paints requested their paint roller logo printed onto their field safety helmets. We processed the raw layout, calibrated the paint logo spacing, and applied a high-density, weather-proof print coating to withstand rigorous construction and paint environments.
-              </p>
-            </div>
+          {caseStudies.map((study, index) => (
+            <div key={study.id} className={`space-y-8 pb-16 ${index !== caseStudies.length - 1 ? 'border-b border-zinc-900' : ''}`}>
+              <div className="space-y-4">
+                <span className="text-xl sm:text-2xl font-display italic font-light text-[#D4AF37] mb-3 block">
+                  Case Study {study.displayId} / {study.client}
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-display font-medium text-white">
+                  {study.title}
+                </h2>
+                <p className="text-zinc-400 text-sm font-medium leading-relaxed">
+                  {study.description}
+                </p>
+              </div>
 
-            {/* Images Grid - rounded-none */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="aspect-[4/3] rounded-none overflow-hidden border border-zinc-800 bg-zinc-900 shadow-lg">
-                <img src="/images/helmet_brief.png" alt="Megatex Helmet Stack" loading="lazy" className="w-full h-full object-cover" />
+              {/* Images Grid - rounded-none */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {study.gallery.map((imgSrc, imgIndex) => (
+                  <div key={imgIndex} className="aspect-[4/3] rounded-none overflow-hidden border border-zinc-800 bg-zinc-900 shadow-lg">
+                    <img src={imgSrc} alt={`${study.title} image ${imgIndex + 1}`} loading="lazy" className="w-full h-full object-cover" />
+                  </div>
+                ))}
               </div>
-              <div className="aspect-[4/3] rounded-none overflow-hidden border border-zinc-800 bg-zinc-900 shadow-lg">
-                <img src="/images/helmet_fulfillment.png" alt="Branded Helmets completed" loading="lazy" className="w-full h-full object-cover" />
-              </div>
-            </div>
 
-            <div className="bg-[#0A0A0A] border border-zinc-800/80 rounded-none p-6 space-y-4">
-              <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">Execution Highlights</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                  Logo Aligned Front Center
-                </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                  High-Visibility Contrast Checked
-                </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                  Scratch-Resistant Resin Coating
-                </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                  100% Uniform Batch Completion
+              <div className="bg-[#0A0A0A] border border-zinc-800/80 rounded-none p-6 space-y-4">
+                <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">Execution Highlights</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {study.highlights.map((highlight, hIndex) => (
+                    <div key={hIndex} className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
+                      <CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                      {highlight}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Case Study 2: Matte Black & Gold */}
-          <div className="space-y-8 pb-16">
-            <div className="space-y-4">
-              <span className="text-xl sm:text-2xl font-display italic font-light text-[#D4AF37] mb-3 block">
-                Case Study 02 / TRV Exclusive
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-medium text-white">
-                Premium Matte Black & Gold Packaging
-              </h2>
-              <p className="text-zinc-400 text-sm font-medium leading-relaxed">
-                For our premium clients, we designed custom dieline boxes featuring an elegant matte-black background paired with embossed gold-foil typography. We calibrated stamp lines and thickness variables so that printing remains crisp and commands authority on luxury shelves.
-              </p>
-            </div>
-
-            {/* Images Grid - rounded-none */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="aspect-[4/3] rounded-none overflow-hidden border border-zinc-800 bg-zinc-900 shadow-lg">
-                <img src="/images/case_box.jpg" alt="Matte Black Box" loading="lazy" className="w-full h-full object-cover" />
-              </div>
-              <div className="aspect-[4/3] rounded-none overflow-hidden border border-zinc-800 bg-zinc-900 shadow-lg">
-                <img src="/images/packaging.jpg" alt="Packaging dieline flatlay" loading="lazy" className="w-full h-full object-cover" />
-              </div>
-            </div>
-
-            <div className="bg-[#0A0A0A] border border-zinc-800/80 rounded-none p-6 space-y-4">
-              <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">Execution Highlights</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                  Precision Cardboard Dielines
-                </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                  Gold Foil Hot Stamping
-                </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                  Heavy-Duty Cardboard Weight
-                </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-300">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                  Saturated Ink Finish Checks
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
 
         </div>
 
