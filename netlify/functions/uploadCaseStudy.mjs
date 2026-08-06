@@ -16,7 +16,7 @@ export default async (req, context) => {
     }
 
     const token = process.env.GITHUB_PAT;
-    const owner = process.env.GITHUB_OWNER || 'trvstuds-afk';
+    const owner = process.env.GITHUB_OWNER || 'dav123-smoov';
     const repo = process.env.GITHUB_REPO || 'trvstudios';
 
     if (!token) {
