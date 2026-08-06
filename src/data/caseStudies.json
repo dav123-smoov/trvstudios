@@ -74,5 +74,24 @@
       "Dark Mode UI System",
       "Responsive Grid Layouts"
     ]
+  },
+  {
+    "id": "5",
+    "displayId": "05",
+    "title": "Premium Packaging Design",
+    "client": "Skincare by Iamsi Kayin",
+    "category": "packaging",
+    "coverImage": "/images/1786028266318_image_2026-08-06_155712119.png",
+    "description": "A high-end packaging design project for Skincare by Iamsi Kayin. The goal was to create premium packaging that elevates the brand, leaves a lasting impression, and builds trust with every detail. We designed a vibrant, sparkly pink aesthetic with custom box dimensions to make the unboxing experience truly memorable for their customers.",
+    "gallery": [
+      "/images/1786028266318_image_2026-08-06_155712119.png",
+      "/images/1786028267079_image_2026-08-06_155738921.png"
+    ],
+    "highlights": [
+      "Premium Quality Print",
+      "Custom Sparkle Design",
+      "Attention to Detail",
+      "Rigid Box Construction"
+    ]
   }
 ]
