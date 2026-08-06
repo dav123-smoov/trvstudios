@@ -65,7 +65,7 @@ export default async (req, context) => {
     let coverImagePath = '';
     if (coverImage) coverImagePath = await uploadImage(coverImage);
 
-    const galleryPaths = [];
+    const galleryPaths = coverImagePath ? [coverImagePath] : [];
     if (galleryImages && Array.isArray(galleryImages)) {
       for (const img of galleryImages) {
         galleryPaths.push(await uploadImage(img));
