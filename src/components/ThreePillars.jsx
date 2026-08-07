@@ -27,7 +27,7 @@ const pillars = [
 
 const ThreePillars = memo(function ThreePillars({ onOpenLeadModal }) {
   return (
-    <section id="strategy" className="py-32 bg-[#050505] relative border-t border-zinc-900">
+    <section id="strategy" className="py-16 md:py-32 bg-[#050505] relative border-t border-zinc-900">
       <div className="max-w-[90rem] mx-auto px-6 lg:px-12">
         
         {/* Header */}
@@ -57,7 +57,7 @@ const ThreePillars = memo(function ThreePillars({ onOpenLeadModal }) {
                 </div>
                 
                 {/* Text Area below image */}
-                <div className="p-8 space-y-4">
+                <div className="p-5 md:p-8 space-y-3 md:space-y-4">
                   <span className="text-[10px] font-bold text-[#D4AF37] tracking-[0.25em] block uppercase">
                     {pillar.label}
                   </span>
@@ -73,9 +73,9 @@ const ThreePillars = memo(function ThreePillars({ onOpenLeadModal }) {
           ))}
         </div>
 
-        <div className="mt-20 border-t border-zinc-900 pt-12 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-12 md:mt-20 border-t border-zinc-900 pt-8 md:pt-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-zinc-400 font-medium text-sm max-w-md">
-            Ready to structure your brand for scale and high-ticket clients?
+            Ready to structure your brand for scale and attract higher-paying clients?
           </p>
           <button
             type="button"

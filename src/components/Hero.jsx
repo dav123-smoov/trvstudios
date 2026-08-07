@@ -23,13 +23,13 @@ const Hero = memo(function Hero({ onOpenLeadModal }) {
 
           {/* Headline */}
           <h1 className="text-[28px] sm:text-[44px] md:text-[48px] font-bold text-white leading-[1.1] tracking-[-0.03em] max-w-[700px] mx-auto px-2">
-            Build a premium brand that <br className="hidden sm:block" />
-            your customers remember and trust.
+            Attract better clients and grow <br className="hidden sm:block" />
+            with a brand they trust.
           </h1>
 
           {/* Subtitle */}
           <p className="mt-3.5 text-zinc-400 text-[11px] sm:text-[12px] font-medium max-w-xl mx-auto px-4">
-            Custom brand identity, packaging, and web design.
+            We help businesses increase perceived value, build trust, and win higher-paying clients — through brand identity, packaging, and web design.
           </p>
 
           {/* CTA Button */}

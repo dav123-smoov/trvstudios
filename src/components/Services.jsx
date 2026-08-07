@@ -5,25 +5,25 @@ const serviceList = [
   {
     number: '01',
     title: 'Brand Identity',
-    description: 'Crafting bespoke visual identity systems, vector logos, color theory, and comprehensive brand guideline manuals.',
+    description: 'A strong brand identity signals trust and increases perceived value, helping you attract better clients and command higher prices.',
     deliverables: ['Custom Logo Design', 'Brand Guidelines', 'Typography System']
   },
   {
     number: '02',
     title: 'Product Packaging',
-    description: 'Custom structural packaging design, print-ready labels, and photorealistic 3D product mockups.',
+    description: 'Premium packaging that turns browsers into buyers. Custom structural designs that make your product look expensive before it is even opened.',
     deliverables: ['Custom Box Design', 'Print-Ready Files', '3D Mockups']
   },
   {
     number: '03',
     title: 'Business Setup',
-    description: 'Official Nigerian CAC business incorporation, trademark compliance, and naming strategy.',
+    description: 'A properly registered, compliant business builds instant credibility and unlocks opportunities with corporate clients and institutions.',
     deliverables: ['CAC Registration', 'Name Availability', 'TIN Assistance']
   },
   {
     number: '04',
     title: 'Digital Presence',
-    description: 'High-converting custom web applications, Google Business Profile optimization, and social setups.',
+    description: 'A high-converting website and strong Google presence ensure new clients find you, trust you, and reach out — without you chasing them.',
     deliverables: ['Website Design', 'Google Business', 'SEO Setup']
   }
 ];
@@ -81,7 +81,7 @@ const Services = memo(function Services({ onOpenLeadModal }) {
                   onClick={onOpenLeadModal}
                   className="text-sm font-bold uppercase tracking-wider text-[#D4AF37] hover:text-white transition-colors flex items-center gap-2 group/btn"
                 >
-                  Inquire
+                  Start a Project
                   <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                 </button>
               </div>

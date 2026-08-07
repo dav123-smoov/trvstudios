@@ -46,7 +46,7 @@ const Navbar = memo(function Navbar({ onOpenLeadModal, activePage, onChangePage 
       <div className="max-w-[1140px] mx-auto w-full pointer-events-auto">
         
         {/* Responsive Navbar Container: Flex-col on mobile, grid on desktop */}
-        <div className="bg-[#111111]/95 backdrop-blur-md border border-zinc-800 rounded-[16px] px-4 md:px-6 py-3 md:py-0 md:h-[58px] flex flex-col md:grid md:grid-cols-3 md:items-center shadow-[0_10px_35px_rgba(0,0,0,0.8)] gap-3.5 md:gap-0">
+        <div className="bg-[#111111]/95 backdrop-blur-md border border-zinc-800 rounded-[16px] px-4 md:px-6 py-2 md:py-0 md:h-[58px] flex flex-col md:grid md:grid-cols-3 md:items-center shadow-[0_10px_35px_rgba(0,0,0,0.8)] gap-2 md:gap-0">
           
           {/* Row 1 (Mobile) / Left Column (Desktop): Logo & Mobile Actions */}
           <div className="flex items-center justify-between md:justify-start w-full md:w-auto">
@@ -77,7 +77,7 @@ const Navbar = memo(function Navbar({ onOpenLeadModal, activePage, onChangePage 
                 aria-label="Contact us on WhatsApp"
               >
                 <WhatsAppIcon />
-                <span>+2349133135923</span>
+                <span>Chat with Us</span>
               </a>
               
               <button
@@ -93,13 +93,13 @@ const Navbar = memo(function Navbar({ onOpenLeadModal, activePage, onChangePage 
           {/* Row 2 (Mobile) / Center Column (Desktop): Navigation links (always visible) */}
           <nav className="flex items-center justify-center space-x-4 sm:space-x-6 md:space-x-8 w-full border-t border-zinc-800/30 md:border-none pt-2.5 md:pt-0">
             <NavLink page="solution" activePage={activePage} onChangePage={onChangePage}>
-              Solution
+              Services
             </NavLink>
             <NavLink page="case-studies" activePage={activePage} onChangePage={onChangePage}>
               Case Studies
             </NavLink>
             <NavLink page="about" activePage={activePage} onChangePage={onChangePage}>
-              About us
+              About Us
             </NavLink>
             <NavLink page="reviews" activePage={activePage} onChangePage={onChangePage}>
               Reviews
@@ -116,7 +116,7 @@ const Navbar = memo(function Navbar({ onOpenLeadModal, activePage, onChangePage 
               aria-label="Contact us on WhatsApp"
             >
               <WhatsAppIcon />
-              <span>+2349133135923</span>
+              <span>Chat with Us</span>
             </a>
             
             <button

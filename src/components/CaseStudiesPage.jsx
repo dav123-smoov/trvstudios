@@ -90,7 +90,7 @@ const CaseStudiesPage = memo(function CaseStudiesPage({ onChangePage, onOpenLead
             onClick={onOpenLeadModal}
             className="px-8 py-4 rounded-none bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-zinc-200 transition-colors inline-flex items-center gap-2 cursor-pointer"
           >
-            <span>Inquire Project</span>
+            <span>Start a Project</span>
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>

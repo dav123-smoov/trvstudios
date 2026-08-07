@@ -55,11 +55,11 @@ export default function App() {
             {/* Agency Services Suite */}
             <Services onOpenLeadModal={handleOpenLeadModal} />
 
-            {/* Megatex Paints Case Study */}
-            <CaseStudyMegatex />
-
             {/* Interactive Brand Diagnostic Quiz */}
             <BrandHealthChecker onOpenLeadModal={handleOpenLeadModal} />
+
+            {/* Megatex Paints Case Study */}
+            <CaseStudyMegatex />
 
             {/* Crafted Portfolio Showcase */}
             <PortfolioGrid />
