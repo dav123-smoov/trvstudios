@@ -3,7 +3,8 @@
     "id": "1",
     "displayId": "01",
     "client": "Megatex Paints Ltd.",
-    "title": "Branding the Safety Gear of a Painting Crew",
+    "title": "Branded Safety Helmets for a Field Paint Crew",
+    "result": "100% uniform batch delivered on-site within deadline",
     "category": "merch",
     "coverImage": "/images/helmet_brief.png",
     "description": "Megatex Paints requested their paint roller logo printed onto their field safety helmets. We processed the raw layout, calibrated the paint logo spacing, and applied a high-density, weather-proof print coating to withstand rigorous construction and paint environments.",
@@ -22,7 +23,8 @@
     "id": "2",
     "displayId": "02",
     "client": "TRV Exclusive",
-    "title": "Premium Matte Black & Gold Packaging",
+    "title": "Luxury Matte Black & Gold Packaging for a Premium Brand",
+    "result": "Elevated shelf presence and increased perceived product value",
     "category": "packaging",
     "coverImage": "/images/packaging.jpg",
     "description": "For our premium clients, we designed custom dieline boxes featuring an elegant matte-black background paired with embossed gold-foil typography. We calibrated stamp lines and thickness variables so that printing remains crisp and commands authority on luxury shelves.",
@@ -41,7 +43,8 @@
     "id": "3",
     "displayId": "03",
     "client": "Executive Founder",
-    "title": "Minimalist Business Stationery",
+    "title": "Minimalist Executive Stationery That Commands Respect",
+    "result": "Premium print collateral ready for high-level networking",
     "category": "stationery",
     "coverImage": "/images/branding.jpg",
     "description": "A refined stationery setup including premium matte business cards, letterheads, and document folders designed for high-level executive networking.",
@@ -60,7 +63,8 @@
     "id": "4",
     "displayId": "04",
     "client": "Corporate Agency",
-    "title": "Analytics Dashboard Application",
+    "title": "Custom Analytics Dashboard That Drives Real-Time Decisions",
+    "result": "Fast-loading React dashboard deployed for enterprise use",
     "category": "digital",
     "coverImage": "/images/webapp.jpg",
     "description": "A comprehensive digital transformation project involving the UI/UX design and frontend development of a real-time data analytics dashboard for enterprise use.",
@@ -78,8 +82,9 @@
   {
     "id": "5",
     "displayId": "05",
-    "title": "Premium Packaging Design",
+    "title": "Vibrant Premium Packaging for a Skincare Brand",
     "client": "Skincare by Iamsi Kayin",
+    "result": "Sparkly unboxing experience that customers share on social media",
     "category": "packaging",
     "coverImage": "/images/1786028266318_image_2026-08-06_155712119.png",
     "description": "A high-end packaging design project for Skincare by Iamsi Kayin. The goal was to create premium packaging that elevates the brand, leaves a lasting impression, and builds trust with every detail. We designed a vibrant, sparkly pink aesthetic with custom box dimensions to make the unboxing experience truly memorable for their customers.",
@@ -92,6 +97,44 @@
       "Custom Sparkle Design",
       "Attention to Detail",
       "Rigid Box Construction"
+    ]
+  },
+  {
+    "id": "6",
+    "displayId": "06",
+    "client": "Digital Agency Client",
+    "title": "Premium Dark-Mode Agency Website That Converts Visitors",
+    "result": "Professional web presence with fast load times and mobile-first design",
+    "category": "digital",
+    "coverImage": "/images/web_case_agency.jpg",
+    "description": "A fully custom agency website built with a dark, premium aesthetic and gold accent system. Designed for maximum authority and conversion, with seamless mobile responsiveness and lightning-fast performance.",
+    "gallery": [
+      "/images/web_case_agency.jpg"
+    ],
+    "highlights": [
+      "Fully Responsive Design",
+      "Gold Accent Brand System",
+      "Mobile-First Architecture",
+      "Premium Dark UI"
+    ]
+  },
+  {
+    "id": "7",
+    "displayId": "07",
+    "client": "Skincare E-Commerce Brand",
+    "title": "Luxury E-Commerce Website for a Skincare Brand",
+    "result": "Premium shopping experience that mirrors the product's quality",
+    "category": "digital",
+    "coverImage": "/images/web_case_ecommerce.jpg",
+    "description": "A luxury e-commerce website for a premium skincare brand. Clean white and soft-pink palette with an elegant serif typography system, showcasing product photography beautifully to drive conversions.",
+    "gallery": [
+      "/images/web_case_ecommerce.jpg"
+    ],
+    "highlights": [
+      "Luxury Soft-Pink Palette",
+      "Product Grid Layouts",
+      "Serif Typography System",
+      "High-Converting UX Flow"
     ]
   }
 ]

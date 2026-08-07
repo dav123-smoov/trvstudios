@@ -11,9 +11,12 @@ const Footer = memo(function Footer({ onOpenLeadModal, onChangePage }) {
         
         {/* Top CTA */}
         <div className="flex flex-col items-center text-center mb-32">
-          <h2 className="text-5xl sm:text-7xl font-display font-medium text-white tracking-tight mb-8">
+          <h2 className="text-5xl sm:text-7xl font-display font-medium text-white tracking-tight mb-4">
             Ready to scale?
           </h2>
+          <p className="text-zinc-400 font-medium text-sm max-w-md mb-8">
+            Let's build a brand that positions your business for long-term growth.
+          </p>
           <button
             type="button"
             onClick={onOpenLeadModal}
@@ -42,9 +45,19 @@ const Footer = memo(function Footer({ onOpenLeadModal, onChangePage }) {
                 <span className="text-zinc-400 font-medium">Studio</span>
               </span>
             </button>
-            <p className="text-zinc-500 font-medium max-w-sm">
+            <p className="text-zinc-500 font-medium max-w-sm mb-6">
               We help D2C brands and businesses scale with direct-response brand identity, web design, and high-converting packaging.
             </p>
+            {/* Location & Contact */}
+            <ul className="space-y-2">
+              <li className="flex items-center gap-2 text-xs text-zinc-500 font-medium">
+                <span className="text-[#D4AF37]">●</span> Lagos, Nigeria
+              </li>
+              <li className="flex items-center gap-2 text-xs font-medium">
+                <span className="text-[#D4AF37]">●</span>
+                <a href="mailto:hello@trvstudio.com" className="text-zinc-500 hover:text-white transition-colors">hello@trvstudio.com</a>
+              </li>
+            </ul>
           </div>
           
           <div>
@@ -79,6 +92,7 @@ const Footer = memo(function Footer({ onOpenLeadModal, onChangePage }) {
               <li><a href="https://www.instagram.com/trventurestudio" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-zinc-500 hover:text-white transition-colors">Instagram</a></li>
               <li><a href="https://www.tiktok.com/@trv_studio?_r=1&_t=ZS-98Q2hAnUVnR" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-zinc-500 hover:text-white transition-colors">TikTok</a></li>
               <li><a href="https://wa.me/2349133135923?text=Hello%20TRV%20Studio" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#D4AF37] hover:text-white transition-colors">WhatsApp Us</a></li>
+              <li><a href="mailto:hello@trvstudio.com" className="text-sm font-medium text-zinc-500 hover:text-white transition-colors">Email Us</a></li>
             </ul>
           </div>
         </div>

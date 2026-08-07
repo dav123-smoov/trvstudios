@@ -66,7 +66,7 @@ export default function App() {
             <FounderTeaser onChangePage={handleChangePage} />
 
             {/* Crafted Portfolio Showcase */}
-            <PortfolioGrid />
+            <PortfolioGrid onOpenLeadModal={handleOpenLeadModal} />
           </>
         )}
 

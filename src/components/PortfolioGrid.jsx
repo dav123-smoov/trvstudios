@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback } from 'react';
-import { ArrowRight, Eye } from 'lucide-react';
+import { useState, useMemo, useCallback, memo } from 'react';
+import { ArrowRight, Eye, ChevronRight } from 'lucide-react';
 import portfolioItems from '../data/caseStudies.json';
 
 const categories = [
@@ -10,7 +10,14 @@ const categories = [
   { id: 'digital', label: 'Digital' }
 ];
 
-export default function PortfolioGrid() {
+const categoryLabels = {
+  packaging: 'Packaging Design',
+  stationery: 'Stationery',
+  merch: 'Brand Merchandise',
+  digital: 'Web & Digital'
+};
+
+export default function PortfolioGrid({ onOpenLeadModal }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const handleCategorySelect = useCallback((id) => {
@@ -39,16 +46,17 @@ export default function PortfolioGrid() {
             </h2>
           </div>
           
-          <div className="flex flex-wrap gap-4 bg-[#0A0A0A] p-2 rounded-none border border-zinc-900">
+          {/* Filter Tabs — improved contrast */}
+          <div className="flex flex-wrap gap-2 bg-[#0A0A0A] p-2 border border-zinc-800">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => handleCategorySelect(cat.id)}
-                className={`text-sm font-semibold tracking-wide transition-all px-4 py-2 rounded-none ${
+                className={`text-xs font-bold tracking-widest uppercase transition-all px-4 py-2.5 ${
                   selectedCategory === cat.id
-                    ? 'bg-zinc-800 text-white shadow-sm'
-                    : 'text-zinc-500 hover:text-white hover:bg-zinc-900/50'
+                    ? 'bg-[#D4AF37] text-black shadow-sm'
+                    : 'text-zinc-300 hover:text-white hover:bg-zinc-800 bg-transparent'
                 }`}
               >
                 {cat.label}
@@ -57,15 +65,22 @@ export default function PortfolioGrid() {
           </div>
         </div>
 
-        {/* Grid matching WordPress premium theme style */}
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
           {filtered.map((item, index) => (
             <div
               key={item.id}
               className={`group cursor-pointer ${index % 2 !== 0 ? 'md:mt-16' : ''}`}
             >
-              {/* Image Container - Straight Card */}
-              <div className="relative aspect-[4/3] rounded-none overflow-hidden bg-zinc-900 border border-zinc-800/80 mb-6 shadow-2xl">
+              {/* Image Container */}
+              <div className="relative aspect-[4/3] rounded-none overflow-hidden bg-zinc-900 border border-zinc-800/80 mb-5 shadow-2xl">
+                {/* Category Badge */}
+                <div className="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm border border-zinc-700/60 px-2.5 py-1">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37]">
+                    {categoryLabels[item.category] || item.category}
+                  </span>
+                </div>
+
                 <img
                   src={item.coverImage}
                   alt={item.title}
@@ -82,21 +97,46 @@ export default function PortfolioGrid() {
               </div>
 
               {/* Meta */}
-              <div className="flex justify-between items-start px-2">
-                <div>
-                  <h3 className="text-xl font-display font-medium text-white mb-1">
+              <div className="flex justify-between items-start px-1">
+                <div className="flex-1 pr-4">
+                  <h3 className="text-lg font-display font-medium text-white mb-1 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-zinc-500 font-medium">
+                  <p className="text-sm text-zinc-500 font-medium mb-2">
                     {item.client}
                   </p>
+                  {item.result && (
+                    <p className="text-xs text-zinc-400 font-medium italic border-l-2 border-[#D4AF37]/50 pl-2.5">
+                      {item.result}
+                    </p>
+                  )}
                 </div>
-                <div className="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center group-hover:bg-[#D4AF37] group-hover:border-[#D4AF37] group-hover:text-black text-zinc-400 transition-colors">
+                <div className="w-10 h-10 shrink-0 rounded-full border border-zinc-800 flex items-center justify-center group-hover:bg-[#D4AF37] group-hover:border-[#D4AF37] group-hover:text-black text-zinc-400 transition-colors mt-1">
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-24 pt-16 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h3 className="text-3xl md:text-4xl font-display font-medium text-white mb-2">
+              Ready to scale?
+            </h3>
+            <p className="text-zinc-400 font-medium text-sm max-w-md">
+              Let's build a brand that positions your business for long-term growth.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onOpenLeadModal}
+            className="shrink-0 px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-zinc-200 transition-colors flex items-center gap-2 cursor-pointer"
+          >
+            Start a Project
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
 
       </div>
