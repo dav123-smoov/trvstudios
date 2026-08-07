@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { ArrowLeft, Upload, Loader2, CheckCircle2, Trash2 } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { ArrowLeft, Upload, Loader2, CheckCircle2, Trash2, Pencil, X } from 'lucide-react';
 import initialCaseStudies from '../../data/caseStudies.json';
 
 export default function AdminDashboard({ onChangePage }) {
@@ -12,6 +12,7 @@ export default function AdminDashboard({ onChangePage }) {
   // Local list state for optimistic UI updates
   const [studies, setStudies] = useState(initialCaseStudies || []);
   const [deletingId, setDeletingId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
 
   // Form State
   const [title, setTitle] = useState('');
@@ -22,6 +23,8 @@ export default function AdminDashboard({ onChangePage }) {
   
   const [coverImageFile, setCoverImageFile] = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
+
+  const formRef = useRef(null);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -44,15 +47,23 @@ export default function AdminDashboard({ onChangePage }) {
     setError('');
 
     try {
-      if (!coverImageFile) {
-        throw new Error("Cover image is required.");
+      if (!editingId && !coverImageFile) {
+        throw new Error("Cover image is required for new case studies.");
       }
 
-      const coverImage = await toBase64(coverImageFile);
-      const galleryImages = await Promise.all(Array.from(galleryFiles).map(toBase64));
+      let coverImage = null;
+      if (coverImageFile) {
+        coverImage = await toBase64(coverImageFile);
+      }
+
+      let galleryImages = [];
+      if (galleryFiles.length > 0) {
+        galleryImages = await Promise.all(Array.from(galleryFiles).map(toBase64));
+      }
 
       const payload = {
         passcode,
+        id: editingId, // Will be null if creating new
         title,
         client,
         category,
@@ -62,7 +73,9 @@ export default function AdminDashboard({ onChangePage }) {
         galleryImages
       };
 
-      const res = await fetch('/api/uploadCaseStudy', {
+      const endpoint = editingId ? '/api/editCaseStudy' : '/api/uploadCaseStudy';
+
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -75,22 +88,49 @@ export default function AdminDashboard({ onChangePage }) {
       }
 
       setSuccess(true);
-      // Optimistically update the list
-      setStudies([...studies, data.caseStudy]);
       
-      // Reset form
-      setTitle('');
-      setClient('');
-      setDescription('');
-      setHighlights('');
-      setCoverImageFile(null);
-      setGalleryFiles([]);
+      // Optimistically update the list
+      if (editingId) {
+        setStudies(studies.map(s => s.id === editingId ? data.caseStudy : s));
+      } else {
+        setStudies([...studies, data.caseStudy]);
+      }
+      
+      resetForm();
 
     } catch (err) {
       console.error(err);
       setError(err.message);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const resetForm = () => {
+    setEditingId(null);
+    setTitle('');
+    setClient('');
+    setDescription('');
+    setHighlights('');
+    setCoverImageFile(null);
+    setGalleryFiles([]);
+  };
+
+  const handleEditClick = (study) => {
+    setEditingId(study.id);
+    setTitle(study.title);
+    setClient(study.client);
+    setCategory(study.category);
+    setDescription(study.description);
+    setHighlights(study.highlights ? study.highlights.join(', ') : '');
+    setCoverImageFile(null); // Keep null to not overwrite unless they select a new one
+    setGalleryFiles([]); 
+    setSuccess(false);
+    setError('');
+    
+    // Scroll down to the form
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -113,6 +153,9 @@ export default function AdminDashboard({ onChangePage }) {
       // Optimistically remove from UI
       setStudies(studies.filter(s => s.id !== id));
       
+      // If we are currently editing the one we just deleted, reset the form
+      if (editingId === id) resetForm();
+
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -167,7 +210,7 @@ export default function AdminDashboard({ onChangePage }) {
         <div className="mb-16">
           <div className="mb-6">
             <h2 className="text-2xl font-display text-white mb-2">Manage Projects</h2>
-            <p className="text-zinc-500 text-sm">Delete existing case studies from your live website.</p>
+            <p className="text-zinc-500 text-sm">Edit or delete existing case studies from your live website.</p>
           </div>
           
           <div className="space-y-3">
@@ -183,23 +226,39 @@ export default function AdminDashboard({ onChangePage }) {
                       <p className="text-zinc-500 text-xs">{study.client}</p>
                     </div>
                   </div>
-                  <button 
-                    onClick={() => handleDelete(study.id)} 
-                    disabled={deletingId === study.id}
-                    className="p-2 text-zinc-600 hover:text-red-500 transition-colors disabled:opacity-50 cursor-pointer"
-                    title="Delete Case Study"
-                  >
-                    {deletingId === study.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => handleEditClick(study)} 
+                      className="p-2 text-zinc-600 hover:text-[#D4AF37] transition-colors cursor-pointer"
+                      title="Edit Case Study"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(study.id)} 
+                      disabled={deletingId === study.id}
+                      className="p-2 text-zinc-600 hover:text-red-500 transition-colors disabled:opacity-50 cursor-pointer"
+                      title="Delete Case Study"
+                    >
+                      {deletingId === study.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                    </button>
+                  </div>
                 </div>
               ))
             )}
           </div>
         </div>
 
-        <div className="mb-10 pt-10 border-t border-zinc-900">
-          <h1 className="text-3xl font-display text-white mb-2">Upload Case Study</h1>
-          <p className="text-zinc-500 text-sm">Fill out the details below. Once submitted, wait 2 minutes for the live site to automatically rebuild.</p>
+        <div className="mb-10 pt-10 border-t border-zinc-900" ref={formRef}>
+          <h1 className="text-3xl font-display text-white mb-2">
+            {editingId ? 'Edit Case Study' : 'Upload New Case Study'}
+          </h1>
+          <p className="text-zinc-500 text-sm">
+            {editingId 
+              ? "Update the details below. Leave image fields blank to keep the existing images."
+              : "Fill out the details below to publish a new project."}
+            {" "}Once submitted, wait 2 minutes for the live site to automatically rebuild.
+          </p>
         </div>
 
         {error && (
@@ -212,9 +271,11 @@ export default function AdminDashboard({ onChangePage }) {
           <div className="mb-8 p-6 bg-green-950/20 border border-green-900/40 flex items-start gap-4 rounded-none">
             <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0" />
             <div>
-              <h4 className="text-white font-medium mb-1">Upload Successful!</h4>
-              <p className="text-zinc-400 text-sm">Your new case study has been securely pushed to GitHub. Netlify is rebuilding the site right now. It will be live in ~2 minutes.</p>
-              <button onClick={() => setSuccess(false)} className="mt-3 text-xs text-[#D4AF37] font-bold uppercase tracking-wider hover:underline cursor-pointer">Upload Another</button>
+              <h4 className="text-white font-medium mb-1">Update Successful!</h4>
+              <p className="text-zinc-400 text-sm">Your changes have been securely pushed to GitHub. Vercel is rebuilding the site right now. It will be live in ~2 minutes.</p>
+              <button onClick={() => setSuccess(false)} className="mt-3 text-xs text-[#D4AF37] font-bold uppercase tracking-wider hover:underline cursor-pointer">
+                Return to Form
+              </button>
             </div>
           </div>
         )}
@@ -254,19 +315,38 @@ export default function AdminDashboard({ onChangePage }) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 border border-zinc-800 bg-[#0A0A0A]">
               <div>
-                <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider block mb-2">Cover Image (Required)</label>
-                <input type="file" required accept="image/*" onChange={e => setCoverImageFile(e.target.files[0])} className="text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-bold file:bg-zinc-800 file:text-white hover:file:bg-zinc-700 cursor-pointer" />
+                <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider block mb-2">
+                  Cover Image {editingId ? '(Optional)' : '(Required)'}
+                </label>
+                <input type="file" required={!editingId} accept="image/*" onChange={e => setCoverImageFile(e.target.files[0])} className="text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-bold file:bg-zinc-800 file:text-white hover:file:bg-zinc-700 cursor-pointer" />
+                {editingId && <p className="text-[10px] text-zinc-500 mt-2">Leave blank to keep existing cover image.</p>}
               </div>
               <div>
-                <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider block mb-2">Gallery Images</label>
+                <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider block mb-2">
+                  Gallery Images {editingId && '(Optional)'}
+                </label>
                 <input type="file" multiple accept="image/*" onChange={e => setGalleryFiles(e.target.files)} className="text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-bold file:bg-zinc-800 file:text-white hover:file:bg-zinc-700 cursor-pointer" />
+                {editingId && <p className="text-[10px] text-zinc-500 mt-2">Leave blank to keep existing gallery images.</p>}
               </div>
             </div>
 
-            <button disabled={isSubmitting} type="submit" className="w-full py-4 bg-[#D4AF37] text-black font-bold text-xs tracking-wider uppercase hover:brightness-110 transition-all rounded-none cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-              {isSubmitting ? 'Uploading to Server...' : 'Publish Case Study'}
-            </button>
+            <div className="flex gap-4">
+              <button disabled={isSubmitting} type="submit" className="flex-1 py-4 bg-[#D4AF37] text-black font-bold text-xs tracking-wider uppercase hover:brightness-110 transition-all rounded-none cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                {isSubmitting ? 'Uploading to Server...' : (editingId ? 'Update Case Study' : 'Publish Case Study')}
+              </button>
+              
+              {editingId && (
+                <button 
+                  type="button" 
+                  disabled={isSubmitting}
+                  onClick={resetForm}
+                  className="px-6 py-4 bg-zinc-900 text-zinc-300 font-bold text-xs tracking-wider uppercase hover:bg-zinc-800 hover:text-white transition-all rounded-none cursor-pointer disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
           </form>
         )}
       </div>
