@@ -5,6 +5,7 @@ import ThreePillars from './components/ThreePillars';
 import Services from './components/Services';
 import CaseStudyMegatex from './components/CaseStudyMegatex';
 import BrandHealthChecker from './components/BrandHealthChecker';
+import FounderTeaser from './components/FounderTeaser';
 import PortfolioGrid from './components/PortfolioGrid';
 import Footer from './components/Footer';
 import LeadMagnetModal from './components/LeadMagnetModal';
@@ -60,6 +61,9 @@ export default function App() {
 
             {/* Megatex Paints Case Study */}
             <CaseStudyMegatex />
+
+            {/* Founder Teaser */}
+            <FounderTeaser onChangePage={handleChangePage} />
 
             {/* Crafted Portfolio Showcase */}
             <PortfolioGrid />

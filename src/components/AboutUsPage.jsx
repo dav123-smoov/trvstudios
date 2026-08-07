@@ -119,6 +119,47 @@ const AboutUsPage = memo(function AboutUsPage({ onChangePage, onOpenLeadModal })
           </div>
         </div>
 
+        {/* Full Founder Story */}
+        <div className="mb-32 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5 order-2 lg:order-1 flex justify-center">
+             <div className="relative w-full max-w-[400px] aspect-[3/4] bg-zinc-900 border border-zinc-800 shadow-2xl overflow-hidden rounded-none">
+                <img 
+                  src="/images/new_founder.png" 
+                  alt="Founder of TRV Studio" 
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top"
+                />
+             </div>
+          </div>
+          <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
+            <span className="text-xl sm:text-2xl font-display italic font-light text-[#D4AF37] mb-2 block">
+              The Founder's Story
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-display font-medium text-white leading-tight">
+              From a vision to a premium execution agency.
+            </h2>
+            <div className="space-y-4 text-zinc-400 text-sm font-medium leading-relaxed">
+              <p>
+                [Insert founder background story here] At TRV Studio, our goal has always been simple: help businesses increase their perceived value so they can stop competing on price and start dominating their market.
+              </p>
+              <p>
+                [Insert more details about the journey] Before starting this agency, I noticed how many incredible businesses were losing out to inferior competitors simply because their brand identity didn't reflect their true quality.
+              </p>
+              <p>
+                [Insert philosophy] We built TRV Studio to fix that gap. We combine strategic thinking with pristine visual architecture to create brands that demand attention and trust.
+              </p>
+            </div>
+            <div className="pt-4">
+              <span className="text-white font-display font-medium text-xl block">
+                [Founder Name]
+              </span>
+              <span className="text-[#D4AF37] text-xs font-bold uppercase tracking-wider block mt-1">
+                Founder & Lead Strategist
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Workspace Display split - Straight Card */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 space-y-6">
