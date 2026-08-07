@@ -52,11 +52,11 @@ export default function App() {
             {/* 3 Pillars Methodology */}
             <ThreePillars onOpenLeadModal={handleOpenLeadModal} />
 
-            {/* Agency Services Suite */}
-            <Services onOpenLeadModal={handleOpenLeadModal} />
-
             {/* Interactive Brand Diagnostic Quiz */}
             <BrandHealthChecker onOpenLeadModal={handleOpenLeadModal} />
+
+            {/* Agency Services Suite */}
+            <Services onOpenLeadModal={handleOpenLeadModal} />
 
             {/* Megatex Paints Case Study */}
             <CaseStudyMegatex />
