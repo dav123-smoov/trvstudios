@@ -62,7 +62,7 @@ export default function AdminDashboard({ onChangePage }) {
         galleryImages
       };
 
-      const res = await fetch('/.netlify/functions/uploadCaseStudy', {
+      const res = await fetch('/api/uploadCaseStudy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -101,7 +101,7 @@ export default function AdminDashboard({ onChangePage }) {
     setError('');
     
     try {
-      const res = await fetch('/.netlify/functions/deleteCaseStudy', {
+      const res = await fetch('/api/deleteCaseStudy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ passcode, id })
