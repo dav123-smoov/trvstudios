@@ -24,24 +24,33 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
     );
   }, []);
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     
     const formData = {
-      "form-name": "booking",
+      "access_key": "fe22a781-393d-4a5f-bd6a-c57f594168fc",
+      "subject": `New Booking Request from ${name}`,
       "name": name,
       "email": email,
       "services": selectedServices.join(", "),
       "description": description
     };
 
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData).toString()
-    })
-      .then(() => setSubmitted(true))
-      .catch(error => console.error("Form submission error:", error));
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        console.error("Form submission error:", await response.text());
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
   }, [name, email, selectedServices, description]);
 
   const handleResetAndClose = useCallback(() => {
@@ -88,14 +97,9 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
 
             {/* Scrollable Form Body - Takes up remaining height and scrolls */}
             <form 
-              name="booking" 
-              method="POST" 
-              data-netlify="true" 
-              netlify-honeypot="bot-field"
               onSubmit={handleSubmit} 
               className="space-y-5 relative z-10 overflow-y-auto pr-2 flex-1 scrollbar-thin"
             >
-              <input type="hidden" name="form-name" value="booking" />
               
               <div>
                 <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-2">
