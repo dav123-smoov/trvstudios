@@ -205,7 +205,7 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
               We have saved your details for: <br />
               <strong className="text-zinc-300 font-semibold block mt-1">{selectedServices.join(', ')}</strong>
               <br />
-              Your request has been successfully sent directly to our team at <strong className="text-white font-semibold">davidbolaji2004@gmail.com</strong>. We will review your details and contact you within 24 hours.
+              Your request has been successfully sent directly to our team at <strong className="text-white font-semibold">info@trvstudio.com</strong>. We will review your details and contact you within 24 hours.
             </p>
 
             <button
