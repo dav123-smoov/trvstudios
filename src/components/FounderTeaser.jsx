@@ -6,11 +6,10 @@ const FounderTeaser = memo(function FounderTeaser({ onChangePage }) {
     <section className="py-24 bg-[#050505] relative border-t border-zinc-900">
       <div className="max-w-[90rem] mx-auto px-6 lg:px-12">
         <div className="bg-[#0A0A0A] border border-zinc-800 p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 md:gap-16 shadow-2xl">
-          <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border border-zinc-700 shrink-0 bg-zinc-900">
-            {/* Placeholder Image */}
+          <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border border-zinc-700 shrink-0 bg-zinc-900 shadow-xl">
             <img 
-              src="/images/new_founder.png" 
-              alt="Founder" 
+              src="/images/founder.png" 
+              alt="Founder of TRV Studio" 
               loading="lazy"
               className="w-full h-full object-cover object-top"
             />

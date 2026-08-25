@@ -69,13 +69,13 @@ const AboutUsPage = memo(function AboutUsPage({ onChangePage, onOpenLeadModal })
 
           {/* Profile cutout next to description - Straight Card */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-[280px] h-[280px] bg-gradient-to-b from-zinc-900 to-black rounded-none border border-zinc-800 overflow-hidden flex items-end justify-center shadow-2xl">
+            <div className="relative w-[280px] h-[280px] bg-gradient-to-b from-zinc-900 to-black rounded-none border border-zinc-800 overflow-hidden flex items-center justify-center shadow-2xl">
               <div className="absolute inset-0 bg-[#D4AF37] rounded-full blur-[80px] opacity-[0.1]" />
               <img 
-                src="/images/new_founder.png" 
+                src="/images/founder.png" 
                 alt="TRV Team Portrait" 
                 loading="lazy"
-                className="relative z-10 h-[240px] w-auto object-contain [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)]"
+                className="relative z-10 w-full h-full object-cover object-top"
               />
             </div>
           </div>
@@ -124,7 +124,7 @@ const AboutUsPage = memo(function AboutUsPage({ onChangePage, onOpenLeadModal })
           <div className="lg:col-span-5 order-2 lg:order-1 flex justify-center">
              <div className="relative w-full max-w-[400px] aspect-[3/4] bg-zinc-900 border border-zinc-800 shadow-2xl overflow-hidden rounded-none">
                 <img 
-                  src="/images/new_founder.png" 
+                  src="/images/founder.png" 
                   alt="Founder of TRV Studio" 
                   loading="lazy"
                   className="w-full h-full object-cover object-top"
