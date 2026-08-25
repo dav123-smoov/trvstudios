@@ -110,7 +110,7 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Ademola Abdul"
+                  placeholder="SURNAME NAME"
                   className="w-full px-4 py-3 rounded-none bg-[#050505] border border-zinc-850 focus:border-[#D4AF37] text-white text-sm placeholder-zinc-700 focus:outline-none transition-colors"
                 />
               </div>
@@ -124,7 +124,7 @@ export default function LeadMagnetModal({ isOpen, onClose }) {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="e.g. ademola@megatexpaints.com"
+                  placeholder="name@example.com"
                   className="w-full px-4 py-3 rounded-none bg-[#050505] border border-zinc-850 focus:border-[#D4AF37] text-white text-sm placeholder-zinc-700 focus:outline-none transition-colors"
                 />
               </div>
