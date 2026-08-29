@@ -7,8 +7,13 @@ export default async function handler(req, res) {
     const { passcode, title, client, category, description, highlights, coverImage, galleryImages } = req.body;
 
     // 1. Verify Passcode
-    if (passcode !== process.env.ADMIN_PASSCODE) {
-      return res.status(401).json({ error: 'Invalid passcode' });
+    const adminPasscode = process.env.ADMIN_PASSCODE?.trim();
+    if (!adminPasscode) {
+      return res.status(500).json({ error: 'ADMIN_PASSCODE is not configured in Vercel Environment Variables. Please add it in Vercel Settings > Environment Variables and redeploy.' });
+    }
+
+    if ((passcode || '').trim() !== adminPasscode) {
+      return res.status(401).json({ error: 'Invalid passcode. Please check your passcode and try again.' });
     }
 
     const token = process.env.GITHUB_PAT;
