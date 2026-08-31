@@ -136,5 +136,23 @@
       "Serif Typography System",
       "High-Converting UX Flow"
     ]
+  },
+  {
+    "id": "8",
+    "displayId": "08",
+    "title": "ddddd",
+    "client": "dd",
+    "category": "packaging",
+    "coverImage": "/images/1788188544516_image_2026-07-04_214136140-removebg-preview.png",
+    "description": "ddddddddddddddddddddd",
+    "gallery": [
+      "/images/1788188544516_image_2026-07-04_214136140-removebg-preview.png",
+      "/images/1788188545447_image_2026-07-30_211735125-removebg-preview.png"
+    ],
+    "highlights": [
+      "a",
+      "b",
+      "c"
+    ]
   }
 ]
