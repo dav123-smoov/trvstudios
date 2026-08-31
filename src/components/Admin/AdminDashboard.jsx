@@ -26,11 +26,31 @@ export default function AdminDashboard({ onChangePage }) {
 
   const formRef = useRef(null);
 
-  const handleLogin = (e) => {
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [loginError, setLoginError] = useState('');
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (passcode.trim() !== '') {
+    if (!passcode.trim()) return;
+    setIsLoggingIn(true);
+    setLoginError('');
+
+    try {
+      const res = await fetch('/api/verifyAuth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode: passcode.trim() })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.valid) {
+        throw new Error(data.error || 'Invalid passcode.');
+      }
       setIsAuthenticated(true);
       setError('');
+    } catch (err) {
+      setLoginError(err.message);
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -173,6 +193,12 @@ export default function AdminDashboard({ onChangePage }) {
             <p className="text-zinc-500 text-xs">Enter your secret passcode to access the CMS.</p>
           </div>
           
+          {loginError && (
+            <div className="p-3 bg-red-950/40 border border-red-900/60 text-red-400 text-xs rounded-none leading-relaxed">
+              {loginError}
+            </div>
+          )}
+
           <div>
             <input
               type="password"
@@ -183,8 +209,13 @@ export default function AdminDashboard({ onChangePage }) {
               className="w-full px-4 py-3 bg-[#050505] border border-zinc-800 focus:border-[#D4AF37] text-white text-sm focus:outline-none transition-colors rounded-none"
             />
           </div>
-          <button type="submit" className="w-full py-3 bg-[#D4AF37] text-black font-bold text-xs tracking-wider uppercase hover:brightness-110 transition-all rounded-none cursor-pointer">
-            Login
+          <button 
+            type="submit" 
+            disabled={isLoggingIn}
+            className="w-full py-3 bg-[#D4AF37] text-black font-bold text-xs tracking-wider uppercase hover:brightness-110 transition-all rounded-none cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            {isLoggingIn ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+            {isLoggingIn ? 'Verifying Passcode...' : 'Login'}
           </button>
         </form>
       </div>
