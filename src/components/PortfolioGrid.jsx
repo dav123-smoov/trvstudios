@@ -1,6 +1,6 @@
-import { useState, useMemo, useCallback, memo } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { ArrowRight, Eye, ChevronRight } from 'lucide-react';
-import portfolioItems from '../data/caseStudies.json';
+import initialPortfolioItems from '../data/caseStudies.json';
 
 const categories = [
   { id: 'all', label: 'All Projects' },
@@ -18,7 +18,21 @@ const categoryLabels = {
 };
 
 export default function PortfolioGrid({ onOpenLeadModal }) {
+  const [items, setItems] = useState(initialPortfolioItems);
   const [selectedCategory, setSelectedCategory] = useState('all');
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`/api/getCaseStudies?_t=${Date.now()}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (isMounted && data && Array.isArray(data.caseStudies)) {
+          setItems(data.caseStudies);
+        }
+      })
+      .catch(() => {});
+    return () => { isMounted = false; };
+  }, []);
 
   const handleCategorySelect = useCallback((id) => {
     setSelectedCategory(id);
@@ -26,9 +40,9 @@ export default function PortfolioGrid({ onOpenLeadModal }) {
 
   const filtered = useMemo(() => {
     return selectedCategory === 'all'
-      ? portfolioItems
-      : portfolioItems.filter(item => item.category === selectedCategory);
-  }, [selectedCategory]);
+      ? items
+      : items.filter(item => item.category === selectedCategory);
+  }, [selectedCategory, items]);
 
   return (
     <section id="work" className="py-24 bg-[#050505] relative border-t border-zinc-900">

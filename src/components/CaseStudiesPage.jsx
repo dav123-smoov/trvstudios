@@ -1,8 +1,23 @@
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { ArrowLeft, CheckCircle2, ChevronRight } from 'lucide-react';
-import caseStudies from '../data/caseStudies.json';
+import initialCaseStudies from '../data/caseStudies.json';
 
 const CaseStudiesPage = memo(function CaseStudiesPage({ onChangePage, onOpenLeadModal }) {
+  const [studies, setStudies] = useState(initialCaseStudies);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`/api/getCaseStudies?_t=${Date.now()}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (isMounted && data && Array.isArray(data.caseStudies)) {
+          setStudies(data.caseStudies);
+        }
+      })
+      .catch(() => {});
+    return () => { isMounted = false; };
+  }, []);
+
   return (
     <div className="bg-[#050505] min-h-screen text-zinc-300 font-sans pt-32 pb-24 relative overflow-hidden">
       
@@ -38,8 +53,8 @@ const CaseStudiesPage = memo(function CaseStudiesPage({ onChangePage, onOpenLead
         {/* Case Studies Stack */}
         <div className="space-y-24">
           
-          {caseStudies.map((study, index) => (
-            <div key={study.id} className={`space-y-8 pb-16 ${index !== caseStudies.length - 1 ? 'border-b border-zinc-900' : ''}`}>
+          {studies.map((study, index) => (
+            <div key={study.id} className={`space-y-8 pb-16 ${index !== studies.length - 1 ? 'border-b border-zinc-900' : ''}`}>
               <div className="space-y-4">
                 <span className="text-xl sm:text-2xl font-display italic font-light text-[#D4AF37] mb-3 block">
                   Case Study {study.displayId} / {study.client}
