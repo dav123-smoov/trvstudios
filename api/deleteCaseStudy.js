@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { passcode, id } = req.body;
+    const { passcode, id } = req.body || {};
 
     // 1. Verify Passcode
     const adminPasscode = process.env.ADMIN_PASSCODE?.trim();
@@ -16,17 +16,20 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Invalid passcode. Please check your passcode and try again.' });
     }
 
-    const token = process.env.GITHUB_PAT;
-    const owner = process.env.GITHUB_OWNER || 'dav123-smoov';
-    const repo = process.env.GITHUB_REPO || 'trvstudios';
+    const rawToken = process.env.GITHUB_PAT?.trim();
+    const owner = (process.env.GITHUB_OWNER || 'dav123-smoov').trim();
+    const repo = (process.env.GITHUB_REPO || 'trvstudios').trim();
 
-    if (!token) {
+    if (!rawToken) {
       return res.status(500).json({ error: 'GITHUB_PAT is not configured in Vercel Environment Variables.' });
     }
 
+    const authHeader = rawToken.startsWith('Bearer ') || rawToken.startsWith('token ') ? rawToken : `Bearer ${rawToken}`;
+
     const headers = {
-      'Authorization': `token ${token}`,
+      'Authorization': authHeader,
       'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'TRV-Studio-CMS/1.0',
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache'
     };
@@ -40,6 +43,8 @@ export default async function handler(req, res) {
       const fileData = await fileRes.json();
       const decodedContent = Buffer.from(fileData.content, 'base64').toString('utf-8');
       caseStudies = JSON.parse(decodedContent);
+    } else if (fileRes.status === 401) {
+      throw new Error('GitHub PAT token has expired or is invalid (401 Bad credentials). Please update GITHUB_PAT in Vercel.');
     } else {
       const errText = await fileRes.text();
       throw new Error(`Failed to fetch caseStudies.json from GitHub (${fileRes.status}): ${errText}`);
@@ -146,7 +151,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true });
 
   } catch (error) {
-    console.error('CMS Error:', error);
+    console.error('CMS Delete Error:', error);
     return res.status(500).json({ error: error.message });
   }
 }

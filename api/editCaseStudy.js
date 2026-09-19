@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { passcode, id, title, client, category, description, highlights, coverImage, galleryImages } = req.body;
+    const { passcode, id, title, client, category, description, highlights, coverImage, galleryImages } = req.body || {};
 
     // 1. Verify Passcode
     const adminPasscode = process.env.ADMIN_PASSCODE?.trim();
@@ -16,17 +16,20 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Invalid passcode. Please check your passcode and try again.' });
     }
 
-    const token = process.env.GITHUB_PAT;
-    const owner = process.env.GITHUB_OWNER || 'dav123-smoov';
-    const repo = process.env.GITHUB_REPO || 'trvstudios';
+    const rawToken = process.env.GITHUB_PAT?.trim();
+    const owner = (process.env.GITHUB_OWNER || 'dav123-smoov').trim();
+    const repo = (process.env.GITHUB_REPO || 'trvstudios').trim();
 
-    if (!token) {
+    if (!rawToken) {
       return res.status(500).json({ error: 'GITHUB_PAT is not configured in Vercel Environment Variables.' });
     }
 
+    const authHeader = rawToken.startsWith('Bearer ') || rawToken.startsWith('token ') ? rawToken : `Bearer ${rawToken}`;
+
     const headers = {
-      'Authorization': `token ${token}`,
+      'Authorization': authHeader,
       'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'TRV-Studio-CMS/1.0',
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache'
     };
@@ -41,8 +44,11 @@ export default async function handler(req, res) {
         body: JSON.stringify({ content, encoding })
       });
       if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error('GitHub PAT token has expired or is invalid (401 Bad credentials). Please update GITHUB_PAT in Vercel.');
+        }
         const errorText = await response.text();
-        throw new Error(`Failed to create blob (${response.status}): ${errorText}`);
+        throw new Error(`GitHub Blob creation failed (${response.status}): ${errorText}`);
       }
       return (await response.json()).sha;
     };
@@ -50,12 +56,13 @@ export default async function handler(req, res) {
     const newTreeItems = [];
 
     const uploadImage = async (imgObj) => {
-      const base64Data = imgObj.base64.replace(/^data:image\/\w+;base64,/, '');
-      const cleanFilename = imgObj.filename.replace(/[^a-zA-Z0-9.-]/g, '_');
+      if (!imgObj || !imgObj.base64) return '';
+      const rawBase64 = imgObj.base64.includes(',') ? imgObj.base64.split(',')[1] : imgObj.base64;
+      const cleanFilename = (imgObj.filename || 'image.jpg').replace(/[^a-zA-Z0-9.-]/g, '_');
       const uniqueFilename = `${Date.now()}_${cleanFilename}`;
       const path = `public/images/${uniqueFilename}`;
       
-      const sha = await uploadBlob(base64Data, 'base64');
+      const sha = await uploadBlob(rawBase64, 'base64');
       newTreeItems.push({
         path,
         mode: '100644',
@@ -72,12 +79,14 @@ export default async function handler(req, res) {
       const fileData = await fileRes.json();
       const decodedContent = Buffer.from(fileData.content, 'base64').toString('utf-8');
       caseStudies = JSON.parse(decodedContent);
+    } else if (fileRes.status === 401) {
+      throw new Error('GitHub PAT token has expired or is invalid (401 Bad credentials). Please update GITHUB_PAT in Vercel.');
     } else {
       const errText = await fileRes.text();
       throw new Error(`Failed to fetch caseStudies.json from GitHub (${fileRes.status}): ${errText}`);
     }
 
-    // 3. Find the case study to edit with robust ID comparison
+    // 3. Find the case study to edit
     const targetIndex = caseStudies.findIndex(cs => String(cs.id).trim() === String(id).trim());
     if (targetIndex === -1) {
       return res.status(404).json({ error: `Case study with ID "${id}" was not found on GitHub.` });
@@ -86,17 +95,18 @@ export default async function handler(req, res) {
 
     // 4. Handle Images (Keep old if not provided)
     let finalCoverImagePath = targetStudy.coverImage;
-    if (coverImage) {
+    if (coverImage && coverImage.base64) {
       finalCoverImagePath = await uploadImage(coverImage);
     }
 
-    let finalGalleryPaths = targetStudy.gallery || [];
-    if (galleryImages && galleryImages.length > 0) {
+    let finalGalleryPaths = Array.isArray(targetStudy.gallery) ? [...targetStudy.gallery] : [];
+    if (galleryImages && Array.isArray(galleryImages) && galleryImages.length > 0) {
       finalGalleryPaths = [finalCoverImagePath];
       for (const img of galleryImages) {
-        finalGalleryPaths.push(await uploadImage(img));
+        const p = await uploadImage(img);
+        if (p) finalGalleryPaths.push(p);
       }
-    } else if (coverImage) {
+    } else if (coverImage && coverImage.base64) {
       if (finalGalleryPaths.length > 0) {
         finalGalleryPaths[0] = finalCoverImagePath;
       } else {
@@ -107,9 +117,9 @@ export default async function handler(req, res) {
     // 5. Update the object
     const updatedStudy = {
       ...targetStudy,
-      title: title || targetStudy.title,
-      client: client || targetStudy.client,
-      category: category || targetStudy.category,
+      title: title !== undefined ? title : targetStudy.title,
+      client: client !== undefined ? client : targetStudy.client,
+      category: category !== undefined ? category : targetStudy.category,
       description: description !== undefined ? description : targetStudy.description,
       highlights: highlights || targetStudy.highlights,
       coverImage: finalCoverImagePath,
@@ -198,7 +208,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true, caseStudy: updatedStudy });
 
   } catch (error) {
-    console.error('CMS Error:', error);
+    console.error('CMS Edit Error:', error);
     return res.status(500).json({ error: error.message });
   }
 }

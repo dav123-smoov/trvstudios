@@ -4,18 +4,20 @@ export default async function handler(req, res) {
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
 
-  const token = process.env.GITHUB_PAT;
-  const owner = process.env.GITHUB_OWNER || 'dav123-smoov';
-  const repo = process.env.GITHUB_REPO || 'trvstudios';
+  const rawToken = process.env.GITHUB_PAT?.trim();
+  const owner = (process.env.GITHUB_OWNER || 'dav123-smoov').trim();
+  const repo = (process.env.GITHUB_REPO || 'trvstudios').trim();
 
-  if (token) {
+  if (rawToken) {
     try {
+      const authHeader = rawToken.startsWith('Bearer ') || rawToken.startsWith('token ') ? rawToken : `Bearer ${rawToken}`;
       const baseUrl = `https://api.github.com/repos/${owner}/${repo}`;
       const url = `${baseUrl}/contents/src/data/caseStudies.json?ref=main&_t=${Date.now()}`;
       const response = await fetch(url, {
         headers: {
-          'Authorization': `token ${token}`,
+          'Authorization': authHeader,
           'Accept': 'application/vnd.github.v3+json',
+          'User-Agent': 'TRV-Studio-CMS/1.0',
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache'
         }
