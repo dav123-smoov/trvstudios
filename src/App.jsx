@@ -9,6 +9,10 @@ import FounderTeaser from './components/FounderTeaser';
 import PortfolioGrid from './components/PortfolioGrid';
 import Footer from './components/Footer';
 import LeadMagnetModal from './components/LeadMagnetModal';
+import MaintenanceOverlay from './components/MaintenanceOverlay';
+
+// Toggle this flag to freeze/unfreeze the live website (true = Frozen, false = Active)
+const MAINTENANCE_MODE = true;
 
 // Dynamic sub-pages
 const SolutionPage = lazy(() => import('./components/SolutionPage'));
@@ -30,6 +34,11 @@ export default function App() {
       window.scrollTo(0, 0);
     }, 10);
   }, []);
+
+  // When maintenance mode is active, display the freeze overlay (unless accessing the admin dashboard)
+  if (MAINTENANCE_MODE && activePage !== 'admin') {
+    return <MaintenanceOverlay onAdminAccess={() => handleChangePage('admin')} />;
+  }
 
   return (
     <div className="min-h-screen bg-[#000000] text-zinc-300 font-sans selection:bg-[#D4AF37] selection:text-black">
